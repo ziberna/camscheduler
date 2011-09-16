@@ -1,0 +1,5 @@
+schedcam uses py-schedtab (https://github.com/Kantist/py-schedtab).
+
+Other dependencies:
+ - pygame (for capturing camera)
+ - pyephem (for nightsky)
