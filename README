@@ -1,4 +1,4 @@
-schedcam uses py-schedtab (https://github.com/Kantist/py-schedtab).
+CamScheduler uses py-scheduler (https://github.com/Kantist/py-scheduler).
 
 Other dependencies:
  - pygame (for capturing camera)
