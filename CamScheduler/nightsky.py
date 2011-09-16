@@ -17,9 +17,6 @@
 
 import ephem
 import datetime
-
-start = datetime.timedelta()
-end = datetime.timedelta()
  
 class NightSky(object):
     def __init__(self, lat, long):
