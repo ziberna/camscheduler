@@ -13,7 +13,7 @@ sunset_delay=30
 sunrise_delay=-30
 
 # file & directory settings
-basedir=../images
+basedir=images
 dirname=%Y-%m/%d
 filename=MyHouse-%Y-%m-%d_%H-%M-%S
 filetype=jpg

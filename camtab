@@ -1,4 +1,4 @@
 # sec       min         hour        weekday     day         month       function    args        kwargs
 
-/20
-/10         *           *           *           *           *           nightsky    /           basedir='../nightsky'
+/10
+/10         *           *           *           *           *           nightsky    /           basedir='nightsky'

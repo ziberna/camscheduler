@@ -34,4 +34,5 @@ class NightSky(object):
         if localtime:
             sunset = ephem.localtime(sunset)
             sunrise = ephem.localtime(sunrise)
+        if sunset > sunrise: sunset -= datetime.timedelta(days=1)
         return sunset, sunrise

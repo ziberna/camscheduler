@@ -95,13 +95,21 @@ class Cam(object):
             self.camera.start()
         except SystemError:
             return False
-        try:
-            for job in self.jobs: job.start()
-        except KeyboardInterrupt:
-            pass
+        scheduler.start(self.jobs, daemon=True)
         
-        self.camera.stop()
-        return True
+        try:
+            open('cam.lck','w').close()
+            while True:
+                time.sleep(1)
+                try:
+                    open('cam.lck').close()
+                except IOError:
+                    raise KeyboardInterrupt
+        except KeyboardInterrupt:
+            print 'CamScheduler terminated.'
+            self.camera.stop()
+        finally:
+            return True
     
     def image(self, basedir=None, dirname=None, filename=None, filetype=None):
         self.datetime = datetime.datetime.now()
