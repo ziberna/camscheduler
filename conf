@@ -4,13 +4,9 @@ resolution=640x480
 format=RGB
 takes=20
 
-# nightsky setttings
-nightsky=1
+# sky settings
 lat=46.55
 long=15.64
-# capture delay in minutes
-sunset_delay=30
-sunrise_delay=-30
 
 # file & directory settings
 basedir=images

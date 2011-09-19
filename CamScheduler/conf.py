@@ -24,11 +24,8 @@ defaults = {
     'format':'RGB',
     'takes':10,
     # nightsky settins
-    'nightsky':0,
     'lat':'46.55',
     'long':'15.64',
-    'sunset_delay':30,
-    'sunrise_delay':-30,
     # file & directory settings
     'basedir':'images',
     'dirname':'%Y-m/%d',
@@ -74,25 +71,6 @@ def parse(conf):
         takes = defaults['takes']
     finally:
         conf['takes'] = takes
-    
-    # nightsky
-    try:
-        sky = int(conf['nightsky'])
-        sky = bool(sky)
-    except ValueError:
-        sky = defaults['nightsky']
-    finally:
-        conf['nightsky'] = sky
-    
-    # sunset_delay:
-    try: set_delay = int(conf['sunset_delay'])
-    except ValueError: set_delay = defaults['sunset_delay']
-    finally: conf['sunset_delay'] = set_delay
-
-    # sunrise_delay:
-    try: rise_delay = int(conf['sunrise_delay'])
-    except ValueError: rise_delay = defaults['sunrise_delay']
-    finally: conf['sunrise_delay'] = rise_delay
     
     # dir paths
     conf['basedir'] = conf['basedir'].rstrip('/')

@@ -26,20 +26,20 @@ import time
 import conf
 import scheduler
 import tools
-import nightsky
+import sky
 
 class Cam(object):
     conf = conf.defaults
     camera = None
     datetime = None
     
+    sky = None
+    
     def __init__(self, conf='conf', camtab='camtab'):
         self.conf_init(conf)
         self.scheduler_init(camtab)
         self.dir_init()
         self.camera_init()
-        if self.conf['nightsky']:
-            self.nightsky_init()
     
     def conf_init(self, path='conf'):
         self.conf = conf.get(path)
@@ -51,8 +51,8 @@ class Cam(object):
                 job.function = self.image
             elif job.function == 'video':
                 job.function = self.video
-            elif job.function == 'nightsky' and self.conf['nightsky']:
-                job.function = self.image_nightsky
+            elif job.function == 'sky':
+                job.function = self.image_sky
     
     def dir_init(self):
         tools.dir(self.conf['basedir'])
@@ -73,22 +73,8 @@ class Cam(object):
             self.conf['format']
         )
     
-    def nightsky_init(self):
-        self.nightsky = nightsky.NightSky(self.conf['lat'],self.conf['long'])
-        self.sunset, self.sunrise = self.nightsky.today()
-        self.sunset_delay = datetime.timedelta(minutes=self.conf['sunset_delay'])
-        self.sunrise_delay = datetime.timedelta(minutes=self.conf['sunrise_delay'])
-        self.datetime = datetime.datetime.now()
-    
-    def nightsky_update(self):
-        now = datetime.datetime.now()
-        if now > self.sunrise:
-            self.sunset, self.sunrise = self.nightsky.today()
-            self.sunset, self.sunrise = self.nightsky.today()
-    
-    def nightsky_isnow(self):
-        now = datetime.datetime.now()
-        return (now >= self.sunset + self.sunset_delay and now <= self.sunrise + self.sunrise_delay)
+    def sky_init(self):
+        self.sky = sky.Sky(self.conf['lat'],self.conf['long'])
     
     def run(self):
         try:
@@ -119,10 +105,25 @@ class Cam(object):
         path = self.filepath(basedir, dirname, filename, filetype, create_dir=True)
         self.save_image(image, path)
     
-    def image_nightsky(self, basedir=None, dirname=None, filename=None, filetype=None):
-        self.nightsky_update()
-        if self.nightsky_isnow():
-            self.image(basedir, dirname, filename, filetype)
+    def image_sky(self, time='day', delay1=0, delay2=0, basedir=None, dirname=None, filename=None, filetype=None):
+        if not self.sky: self.sky_init()
+        
+        if time != 'day' and time != 'night':
+            return
+        
+        self.datetime = datetime.datetime.now()
+        
+        if time == 'day' and self.sky.isday():
+            sunrise = self.sky.day[0] + datetime.timedelta(minutes=delay1)
+            sunset = self.sky.day[1] + datetime.timedelta(minutes=delay2)
+            if self.datetime > sunrise and self.datetime < sunset:
+                self.image(basedir, dirname, filename, filetype)
+        
+        elif time == 'night' and self.sky.isnight():
+            sunrise = self.sky.night[0] + datetime.timedelta(minutes=delay2)
+            sunset = self.sky.night[1] + datetime.timedelta(minutes=delay1)
+            if self.datetime < sunrise and self.datetime > sunset:
+                self.image(basedir, dirname, filename, filetype)
     
     def video(self, seconds=5):
         pass # not implemented
