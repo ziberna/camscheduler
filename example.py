@@ -1,3 +1,4 @@
 import CamScheduler
 cam = CamScheduler.Cam(conf='conf',camtab='camtab')
-cam.run()
+if not cam.run():
+    print 'Camera probably not connected.'

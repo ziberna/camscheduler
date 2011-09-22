@@ -45,14 +45,11 @@ class Cam(object):
         self.conf = conf.get(path)
     
     def scheduler_init(self, path='camtab'):
+        scheduler.function.default = self.image
+        scheduler.function.sky = self.image_sky
+        scheduler.function.video = self.video
+        
         self.jobs = scheduler.jobs(path=path)
-        for job in self.jobs:
-            if job.function == None:
-                job.function = self.image
-            elif job.function == 'video':
-                job.function = self.video
-            elif job.function == 'sky':
-                job.function = self.image_sky
     
     def dir_init(self):
         tools.dir(self.conf['basedir'])
