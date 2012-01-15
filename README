@@ -1,4 +1,4 @@
-CamScheduler uses py-scheduler (https://github.com/Kantist/py-scheduler).
+camscheduler uses py-scheduler (https://github.com/jzib/py-scheduler).
 
 Other dependencies:
  - pygame (for capturing camera)
