@@ -1,5 +1,0 @@
-camscheduler uses py-scheduler (https://github.com/jzib/py-scheduler).
-
-Other dependencies:
- - pygame (for capturing camera)
- - pyephem (for nightsky)
