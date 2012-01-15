@@ -18,5 +18,6 @@ Dependencies
 camscheduler uses py-scheduler (https://github.com/jzib/py-scheduler).
 
 Other dependencies:
+
 - pygame (for capturing images from camera)
 - pyephem (for calculating sunrises and sunsets)
